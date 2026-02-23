@@ -1,5 +1,13 @@
 package br.edu.ifsp.hugo_luigi2026.testes;
 
+import br.edu.ifsp.hugo_luigi2026.dao.AlunoDao;
+import br.edu.ifsp.hugo_luigi2026.modelo.Aluno;
+import br.edu.ifsp.hugo_luigi2026.util.JPAUtil;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.NoResultException;
+
+import java.sql.SQLOutput;
+import java.util.List;
 import java.util.Scanner;
 
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
@@ -8,6 +16,9 @@ public class Main {
     public static void main(String[] args) {
         Scanner leitor = new Scanner(System.in);
         int opcao = 0;
+
+        EntityManager em = JPAUtil.getEntityManager();
+        AlunoDao alunoDao = new AlunoDao(em);
 
         while (opcao != 6) {
             System.out.println("\n--- SISTEMA DE CADASTRO DE ALUNOS ---");
@@ -38,8 +49,21 @@ public class Main {
                     //chamr metodo alterarAluno(nome);
                     break;
                 case 4:
-                    System.out.println(">> CONSULTAR ALUNO");
-                    //chamar metodo buscarAluno(nome)
+                    System.out.println(">> CONSULTAR ALUNO:");
+                    System.out.println("Digite o nome: ");
+                    String buscaAtual = leitor.nextLine();
+                    try{
+                        Aluno a = alunoDao.buscarAluno(buscaAtual);
+                        System.out.println("Dados do Aluno:");
+                        System.out.println("Nome: " + a.getNome());
+                        System.out.println("RA: " + a.getRa());
+                        System.out.println("E-mail: " + a.getEmail());
+                        System.out.println("Notas: " + a.getNota1() + " - " + a.getNota2() + " - " + a.getNota3());
+
+                    }catch (NoResultException e){
+                        System.out.println("\n[ERRO] Aluno '" + buscaAtual + "' não encontrado!");
+                    }
+
                     break;
                 case 5:
                     System.out.println(">> EXIBIR TODOS OS ALUNOS");

@@ -24,20 +24,17 @@ public class AlunoDao {
     public Aluno alterarAluno(String nome){
 
     }
+    */
 
     public Aluno buscarAluno(String nome){
 
+        return em.find(Aluno.class,nome);
     }
 
-    */
-
-    /*
     public List<Aluno> buscarTodosAlunos(){
-        String jpql = "SELECT a FROM Aluno a WHERE a.nome = ?1";
-        return em.createQuery(jpql, Aluno.class)
-                .setParameter(1, nome)
-                .getResultList();
+        String jpql = "SELECT a FROM Aluno a";
+        return em.createQuery(jpql,Aluno.class).getResultList();
     }
 
- */
+
 }
