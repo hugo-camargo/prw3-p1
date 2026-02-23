@@ -1,4 +1,4 @@
-package br.edu.ifsp.hugo_luigi2026;
+package br.edu.ifsp.hugo_luigi2026.testes;
 
 import java.util.Scanner;
 
