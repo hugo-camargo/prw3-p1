@@ -1,6 +1,8 @@
 package br.edu.ifsp.hugo_luigi2026.modelo;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.DecimalMax;
+import jakarta.validation.constraints.DecimalMin;
 
 import java.math.BigDecimal;
 
@@ -13,8 +15,16 @@ public class Aluno {
     private String nome;
     private String ra;
     private String email;
+    @DecimalMin(value = "0.0", message = "A nota não pode ser menor que 0")
+    @DecimalMax(value = "10.0", message = "A nota não pode ser maior que 10")
     private BigDecimal nota1;
+
+    @DecimalMin(value = "0.0", message = "A nota não pode ser menor que 0")
+    @DecimalMax(value = "10.0", message = "A nota não pode ser maior que 10")
     private BigDecimal nota2;
+
+    @DecimalMin(value = "0.0", message = "A nota não pode ser menor que 0")
+    @DecimalMax(value = "10.0", message = "A nota não pode ser maior que 10")
     private BigDecimal nota3;
 
     public Aluno(){}
