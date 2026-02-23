@@ -35,7 +35,31 @@ public class Main {
             switch (opcao) {
                 case 1:
                     System.out.println(">> CADASTRO DE ALUNO:");
-                    //chamar metodo cadastrarAluno();
+                    Aluno novoAluno = new Aluno();
+                    System.out.print("Nome Completo: ");
+                    novoAluno.setNome(leitor.nextLine());
+
+                    System.out.print("RA: ");
+                    novoAluno.setRa(leitor.nextLine());
+
+                    System.out.print("E-mail: ");
+                    novoAluno.setEmail(leitor.nextLine());
+
+                    System.out.print("Nota 1: ");
+                    novoAluno.setNota1(leitor.nextBigDecimal());
+
+                    System.out.print("Nota 2: ");
+                    novoAluno.setNota2(leitor.nextBigDecimal());
+
+                    System.out.print("Nota 3: ");
+                    novoAluno.setNota2(leitor.nextBigDecimal());
+                    leitor.nextLine();
+                    try {
+                        alunoDao.cadastrar(novoAluno);
+                        System.out.println("\n [SUCESSO] Aluno cadastrado com êxito!");
+                    }catch (Exception e){
+                        System.err.println("\n[ERRO] Falha ao cadastrar: " + e.getMessage());
+                    }
                     break;
                 case 2:
                     System.out.println(">> EXCLUIR ALUNO:");
@@ -58,7 +82,7 @@ public class Main {
                         System.out.println("Notas: " + a.getNota1() + " - " + a.getNota2() + " - " + a.getNota3());
 
                     }catch (NoResultException e){
-                        System.out.println("\n[ERRO] Aluno '" + buscaAtual + "' não encontrado!");
+                        System.out.println("\n[ERRO] Aluno '" + buscaAtual + "' não encontrado! ");
                     }
 
                     break;
@@ -68,6 +92,7 @@ public class Main {
                     break;
                 case 6:
                     System.out.println(">> ENCERRANDO O SISTEMA. OBRIGADO POR USAR! ATÉ LOGO!");
+                    em.close();
                     break;
                 default:
                     System.out.println("OPÇÃO INVÁLIDA! TENTE NOVAMENTE.");

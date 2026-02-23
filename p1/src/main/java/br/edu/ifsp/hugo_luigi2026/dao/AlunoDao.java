@@ -13,7 +13,15 @@ public class AlunoDao {
     }
 
     public void cadastrar (Aluno aluno){
-        this.em.persist(aluno);
+        try{
+            em.getTransaction().begin();
+            this.em.persist(aluno);
+            em.getTransaction().commit();
+        }catch (Exception e){
+            em.getTransaction().rollback();
+            throw e;
+        }
+
     }
 
     /*
