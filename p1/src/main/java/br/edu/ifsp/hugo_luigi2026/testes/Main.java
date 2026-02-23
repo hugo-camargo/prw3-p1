@@ -9,6 +9,9 @@ import jakarta.persistence.NoResultException;
 import java.util.List;
 import java.util.Scanner;
 
+// FEITO POR:
+// LUIGI ANTONIO LODDI VANZELLA
+//HUGO ...
 public class Main {
     public static void main(String[] args) {
         Scanner leitor = new Scanner(System.in);
@@ -71,7 +74,10 @@ public class Main {
                     break;
                 case 3:
                     System.out.println(">> ALTERAR ALUNO:");
-                    //chamr metodo alterarAluno(nome);
+                    System.out.print("Digite o nome: ");
+                    String nomeAlteracao = leitor.nextLine();
+
+                    alunoDao.alterarAluno(nomeAlteracao);
                     break;
                 case 4:
                     System.out.println(">> CONSULTAR ALUNO:");

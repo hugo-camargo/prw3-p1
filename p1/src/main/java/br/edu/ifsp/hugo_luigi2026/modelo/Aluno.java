@@ -101,7 +101,14 @@ public class Aluno {
         return soma.divide(new BigDecimal("3"), 2, RoundingMode.HALF_UP);
     }
     public String status(){
-        return (this.getMedia().doubleValue() >= 6) ? "APROVADO " : "REPROVADO";
+        if(this.getMedia().doubleValue() >= 6)
+            return "APROVADO";
+        if(this.getMedia().doubleValue() < 6 || this.getMedia().doubleValue() >= 4 ){
+            return "RECUPERAÇÃO";
+        }
+        else{
+            return "REPROVADO";
+        }
     }
 
 }
