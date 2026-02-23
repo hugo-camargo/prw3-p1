@@ -9,6 +9,9 @@ import jakarta.persistence.NoResultException;
 import java.util.List;
 import java.util.Scanner;
 
+// FEITO POR:
+// LUIGI ANTONIO LODDI VANZELLA
+//HUGO ...
 public class Main {
     public static void main(String[] args) {
         Scanner leitor = new Scanner(System.in);
@@ -23,7 +26,7 @@ public class Main {
             System.out.println("2 - Excluir aluno");
             System.out.println("3 - Alterar aluno");
             System.out.println("4 - Buscar aluno pelo nome");
-            System.out.println("5 - Listar aluno (com status aprovação");
+            System.out.println("5 - Listar aluno (com status aprovação)");
             System.out.println("6 - FIM");
             System.out.print("Escolha uma opção: ");
 
@@ -92,7 +95,21 @@ public class Main {
                     break;
                 case 5:
                     System.out.println(">> EXIBIR TODOS OS ALUNOS");
-                    //chamar metodo listarAlunos()
+                    List<Aluno> lista = alunoDao.buscarTodosAlunos();
+                    if(lista.isEmpty()){
+                        System.out.println("Nenhum aluno cadastrado no momento.");
+                    }else{
+                        for(Aluno al: lista){
+                            System.out.println("Dados do Aluno:");
+                            System.out.println("Nome: " + al.getNome());
+                            System.out.println("RA: " + al.getRa());
+                            System.out.println("E-mail: " + al.getEmail());
+                            System.out.println("Notas: " + al.getNota1() + " - " + al.getNota2() + " - " + al.getNota3());
+                            System.out.println("Media: " + al.getMedia());
+                            System.out.println("Status: >> " + al.status() + " <<");
+                        }
+                    }
+
                     break;
                 case 6:
                     System.out.println(">> ENCERRANDO O SISTEMA. OBRIGADO POR USAR! ATÉ LOGO!");

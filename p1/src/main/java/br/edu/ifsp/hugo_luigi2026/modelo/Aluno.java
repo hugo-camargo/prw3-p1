@@ -5,7 +5,11 @@ import jakarta.validation.constraints.DecimalMax;
 import jakarta.validation.constraints.DecimalMin;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 
+// FEITO POR:
+// LUIGI ANTONIO LODDI VANZELLA
+//HUGO ...
 @Entity
 @Table(name = "alunos")
 public class Aluno {
@@ -93,4 +97,21 @@ public class Aluno {
     public void setNota3(BigDecimal nota3) {
         this.nota3 = nota3;
     }
+
+    public BigDecimal getMedia(){
+        if (nota1 == null || nota2 == null || nota3 == null) return BigDecimal.ZERO;
+        BigDecimal soma = nota1.add(nota2).add(nota3);
+        return soma.divide(new BigDecimal("3"), 2, RoundingMode.HALF_UP);
+    }
+    public String status(){
+        if(this.getMedia().doubleValue() >= 6)
+            return "APROVADO";
+        if(this.getMedia().doubleValue() < 6 || this.getMedia().doubleValue() >= 4 ){
+            return "RECUPERAÇÃO";
+        }
+        else{
+            return "REPROVADO";
+        }
+    }
+
 }
