@@ -1,0 +1,48 @@
+package br.edu.ifsp.hugo_luigi2026.dao;
+
+import br.edu.ifsp.hugo_luigi2026.modelo.Aluno;
+import jakarta.persistence.EntityManager;
+
+import java.util.List;
+
+public class AlunoDao {
+    private EntityManager em;
+
+    public AlunoDao(EntityManager em){
+        this.em = em;
+    }
+
+    public void cadastrar (Aluno aluno){
+        try{
+            em.getTransaction().begin();
+            this.em.persist(aluno);
+            em.getTransaction().commit();
+        }catch (Exception e){
+            em.getTransaction().rollback();
+            throw e;
+        }
+
+    }
+
+    /*
+    public Aluno excluirAluno(String nome){
+
+    }
+
+    public Aluno alterarAluno(String nome){
+
+    }
+    */
+
+    public Aluno buscarAluno(String nome){
+
+        return em.find(Aluno.class,nome);
+    }
+
+    public List<Aluno> buscarTodosAlunos(){
+        String jpql = "SELECT a FROM Aluno a";
+        return em.createQuery(jpql,Aluno.class).getResultList();
+    }
+
+
+}
