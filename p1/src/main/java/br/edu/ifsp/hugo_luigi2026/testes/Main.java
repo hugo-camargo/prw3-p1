@@ -52,7 +52,7 @@ public class Main {
                     novoAluno.setNota2(leitor.nextBigDecimal());
 
                     System.out.print("Nota 3: ");
-                    novoAluno.setNota2(leitor.nextBigDecimal());
+                    novoAluno.setNota3(leitor.nextBigDecimal());
                     leitor.nextLine();
                     try {
                         alunoDao.cadastrar(novoAluno);
@@ -64,6 +64,10 @@ public class Main {
                 case 2:
                     System.out.println(">> EXCLUIR ALUNO:");
                     //chamar metodo excluiAluno(nome);
+                    System.out.print("Digite o nome: ");
+                    String nome = leitor.nextLine();
+
+                    alunoDao.excluirAluno(nome);
                     break;
                 case 3:
                     System.out.println(">> ALTERAR ALUNO:");
