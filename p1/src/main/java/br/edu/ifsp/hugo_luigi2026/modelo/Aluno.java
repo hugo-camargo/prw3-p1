@@ -5,6 +5,7 @@ import jakarta.validation.constraints.DecimalMax;
 import jakarta.validation.constraints.DecimalMin;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 @Entity
 @Table(name = "alunos")
@@ -93,4 +94,14 @@ public class Aluno {
     public void setNota3(BigDecimal nota3) {
         this.nota3 = nota3;
     }
+
+    public BigDecimal getMedia(){
+        if (nota1 == null || nota2 == null || nota3 == null) return BigDecimal.ZERO;
+        BigDecimal soma = nota1.add(nota2).add(nota3);
+        return soma.divide(new BigDecimal("3"), 2, RoundingMode.HALF_UP);
+    }
+    public String status(){
+        return (this.getMedia().doubleValue() >= 6) ? "APROVADO " : "REPROVADO";
+    }
+
 }

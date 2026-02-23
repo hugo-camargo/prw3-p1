@@ -4,6 +4,8 @@ import br.edu.ifsp.hugo_luigi2026.modelo.Aluno;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.NoResultException;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.List;
 
 public class AlunoDao {
@@ -69,6 +71,8 @@ public class AlunoDao {
 
         return em.createQuery(jpql,Aluno.class).getResultList();
     }
+
+
 
 
 }
