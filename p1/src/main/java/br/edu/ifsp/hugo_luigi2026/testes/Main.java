@@ -22,32 +22,34 @@ public class Main {
             opcao = leitor.nextInt();
             leitor.nextLine();
 
+
+
             switch (opcao) {
                 case 1:
-                    System.out.println(">> Iniciando cadastro de aluno...");
+                    System.out.println(">> CADASTRO DE ALUNO:");
                     //chamar metodo cadastrarAluno();
                     break;
                 case 2:
-                    System.out.println(">> Digite o Nome para excluir...");
+                    System.out.println(">> EXCLUIR ALUNO:");
                     //chamar metodo excluiAluno(nome);
                     break;
                 case 3:
-                    System.out.println(">> Digite o Nome para Alterar os dados do aluno...");
+                    System.out.println(">> ALTERAR ALUNO:");
                     //chamr metodo alterarAluno(nome);
                     break;
                 case 4:
-                    System.out.println(">> Digite o Nome para busca...");
+                    System.out.println(">> CONSULTAR ALUNO");
                     //chamar metodo buscarAluno(nome)
                     break;
                 case 5:
-                    System.out.println(">> Listando alunos e status...");
+                    System.out.println(">> EXIBIR TODOS OS ALUNOS");
                     //chamar metodo listarAlunos()
                     break;
                 case 6:
-                    System.out.println(">> Encerrando o sistema. Obrigado por usar! Até Logo!");
+                    System.out.println(">> ENCERRANDO O SISTEMA. OBRIGADO POR USAR! ATÉ LOGO!");
                     break;
                 default:
-                    System.out.println("Opção inválida! Tente novamente.");
+                    System.out.println("OPÇÃO INVÁLIDA! TENTE NOVAMENTE.");
                     break;
             }
         }
