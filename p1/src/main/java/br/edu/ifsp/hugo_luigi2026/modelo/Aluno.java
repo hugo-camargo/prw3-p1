@@ -7,6 +7,9 @@ import jakarta.validation.constraints.DecimalMin;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 
+// FEITO POR:
+// LUIGI ANTONIO LODDI VANZELLA
+//HUGO ...
 @Entity
 @Table(name = "alunos")
 public class Aluno {

@@ -5,7 +5,6 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.NoResultException;
 
 import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.util.List;
 import java.util.Scanner;
 
@@ -111,8 +110,6 @@ public class AlunoDao {
 
         return em.createQuery(jpql,Aluno.class).getResultList();
     }
-
-
 
 
 }
