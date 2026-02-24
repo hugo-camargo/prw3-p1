@@ -74,7 +74,10 @@ public class Main {
                     break;
                 case 3:
                     System.out.println(">> ALTERAR ALUNO:");
-                    //chamr metodo alterarAluno(nome);
+                    System.out.print("Digite o nome: ");
+                    String nomeAlteracao = leitor.nextLine();
+
+                    alunoDao.alterarAluno(nomeAlteracao);
                     break;
                 case 4:
                     System.out.println(">> CONSULTAR ALUNO:");

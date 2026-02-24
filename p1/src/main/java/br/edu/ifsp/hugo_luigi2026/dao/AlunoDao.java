@@ -55,14 +55,7 @@ public class AlunoDao {
 
     public void alterarAluno(String nome){
         try{
-            String jpql = "SELECT a FROM Aluno a WHERE a.nome = :n";
-            List<Aluno> lista = em.createQuery(jpql, Aluno.class).setParameter("n", nome).getResultList();
-
-            if(lista.isEmpty()){
-                System.out.println("Aluno não encontrado");
-                return;
-            }
-            Aluno a = lista.get(0);
+            Aluno aluno = buscarAluno(nome);
 
             Scanner scan = new Scanner(System.in);
 
@@ -90,12 +83,12 @@ public class AlunoDao {
             }
             em.getTransaction().begin();
 
-            a.setNome(novoNome);
-            a.setRa(novoRa);
-            a.setEmail(novoEmail);
-            a.setNota1(n1);
-            a.setNota2(n2);
-            a.setNota3(n3);
+            aluno.setNome(novoNome);
+            aluno.setRa(novoRa);
+            aluno.setEmail(novoEmail);
+            aluno.setNota1(n1);
+            aluno.setNota2(n2);
+            aluno.setNota3(n3);
 
             em.getTransaction().commit();
 
