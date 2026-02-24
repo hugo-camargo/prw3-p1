@@ -103,13 +103,14 @@ public class Main {
                         System.out.println("Nenhum aluno cadastrado no momento.");
                     }else{
                         for(Aluno al: lista){
-                            System.out.println("Dados do Aluno:");
+                            System.out.println("-------------------------");
+                            System.out.println("\nDados do Aluno:");
                             System.out.println("Nome: " + al.getNome());
                             System.out.println("RA: " + al.getRa());
                             System.out.println("E-mail: " + al.getEmail());
                             System.out.println("Notas: " + al.getNota1() + " - " + al.getNota2() + " - " + al.getNota3());
                             System.out.println("Media: " + al.getMedia());
-                            System.out.println("Status: >> " + al.status() + " <<");
+                            System.out.println("Status: >> " + al.status() + " <<\n");
                         }
                     }
 
