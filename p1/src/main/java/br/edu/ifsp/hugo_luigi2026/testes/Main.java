@@ -14,14 +14,13 @@ public class Main {
         EntityManager em = JPAUtil.getEntityManager();
         AlunoDao alunoDao = new AlunoDao(em);
 
-        // O Scanner dentro do try() será fechado automaticamente ao sair do bloco
         try (Scanner leitor = new Scanner(System.in)) {
             int opcao = 0;
 
             while (opcao != 6) {
                 exibirMenu();
 
-                // Validação para evitar erro caso digitem texto onde deveria ser número
+
                 if (leitor.hasNextInt()) {
                     opcao = leitor.nextInt();
                     leitor.nextLine(); // Limpa o buffer
@@ -44,10 +43,10 @@ public class Main {
                     default -> System.out.println("OPÇÃO INVÁLIDA! TENTE NOVAMENTE.");
                 }
             }
-        } // O Scanner fecha aqui sozinho, sem leitor.close() manual.
+        }
     }
 
-    // Métodos auxiliares para deixar o switch "limpo" e elegante
+
     private static void exibirMenu() {
         System.out.println("\n--- SISTEMA DE CADASTRO DE ALUNOS ---");
         System.out.println("1 - Cadastrar aluno");
