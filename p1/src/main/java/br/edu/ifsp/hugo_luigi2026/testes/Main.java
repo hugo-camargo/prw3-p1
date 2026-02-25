@@ -9,122 +9,115 @@ import jakarta.persistence.NoResultException;
 import java.util.List;
 import java.util.Scanner;
 
-// FEITO POR:
-// LUIGI ANTONIO LODDI VANZELLA
-//HUGO ...
 public class Main {
     public static void main(String[] args) {
-        Scanner leitor = new Scanner(System.in);
-        int opcao = 0;
-
         EntityManager em = JPAUtil.getEntityManager();
         AlunoDao alunoDao = new AlunoDao(em);
 
-        while (opcao != 6) {
-            System.out.println("\n--- SISTEMA DE CADASTRO DE ALUNOS ---");
-            System.out.println("1 - Cadastrar aluno");
-            System.out.println("2 - Excluir aluno");
-            System.out.println("3 - Alterar aluno");
-            System.out.println("4 - Buscar aluno pelo nome");
-            System.out.println("5 - Listar aluno (com status aprovação)");
-            System.out.println("6 - FIM");
-            System.out.print("Escolha uma opção: ");
+        // O Scanner dentro do try() será fechado automaticamente ao sair do bloco
+        try (Scanner leitor = new Scanner(System.in)) {
+            int opcao = 0;
 
-            opcao = leitor.nextInt();
-            leitor.nextLine();
+            while (opcao != 6) {
+                exibirMenu();
 
+                // Validação para evitar erro caso digitem texto onde deveria ser número
+                if (leitor.hasNextInt()) {
+                    opcao = leitor.nextInt();
+                    leitor.nextLine(); // Limpa o buffer
+                } else {
+                    System.out.println("Por favor, digite um número válido.");
+                    leitor.nextLine(); // Limpa a entrada inválida
+                    continue;
+                }
 
-
-            switch (opcao) {
-                case 1:
-                    System.out.println(">> CADASTRO DE ALUNO:");
-                    Aluno novoAluno = new Aluno();
-                    System.out.print("Nome Completo: ");
-                    novoAluno.setNome(leitor.nextLine());
-
-                    System.out.print("RA: ");
-                    novoAluno.setRa(leitor.nextLine());
-
-                    System.out.print("E-mail: ");
-                    novoAluno.setEmail(leitor.nextLine());
-
-                    System.out.print("Nota 1: ");
-                    novoAluno.setNota1(leitor.nextBigDecimal());
-
-                    System.out.print("Nota 2: ");
-                    novoAluno.setNota2(leitor.nextBigDecimal());
-
-                    System.out.print("Nota 3: ");
-                    novoAluno.setNota3(leitor.nextBigDecimal());
-                    leitor.nextLine();
-                    try {
-                        alunoDao.cadastrar(novoAluno);
-                        System.out.println("\n [SUCESSO] Aluno cadastrado com êxito!");
-                    }catch (Exception e){
-                        System.err.println("\n[ERRO] Falha ao cadastrar: " + e.getMessage());
+                switch (opcao) {
+                    case 1 -> cadastrarAluno(leitor, alunoDao);
+                    case 2 -> excluirAluno(leitor, alunoDao);
+                    case 3 -> alterarAluno(leitor, alunoDao);
+                    case 4 -> consultarAluno(leitor, alunoDao);
+                    case 5 -> listarAlunos(alunoDao);
+                    case 6 -> {
+                        System.out.println(">> ENCERRANDO O SISTEMA. OBRIGADO POR USAR! ATÉ LOGO!");
+                        em.close();
                     }
-                    break;
-                case 2:
-                    System.out.println(">> EXCLUIR ALUNO:");
-                    //chamar metodo excluiAluno(nome);
-                    System.out.print("Digite o nome: ");
-                    String nome = leitor.nextLine();
+                    default -> System.out.println("OPÇÃO INVÁLIDA! TENTE NOVAMENTE.");
+                }
+            }
+        } // O Scanner fecha aqui sozinho, sem leitor.close() manual.
+    }
 
-                    alunoDao.excluirAluno(nome);
-                    break;
-                case 3:
-                    System.out.println(">> ALTERAR ALUNO:");
-                    System.out.print("Digite o nome: ");
-                    String nomeAlteracao = leitor.nextLine();
+    // Métodos auxiliares para deixar o switch "limpo" e elegante
+    private static void exibirMenu() {
+        System.out.println("\n--- SISTEMA DE CADASTRO DE ALUNOS ---");
+        System.out.println("1 - Cadastrar aluno");
+        System.out.println("2 - Excluir aluno");
+        System.out.println("3 - Alterar aluno");
+        System.out.println("4 - Buscar aluno pelo nome");
+        System.out.println("5 - Listar aluno (com status aprovação)");
+        System.out.println("6 - FIM");
+        System.out.print("Escolha uma opção: ");
+    }
 
-                    alunoDao.alterarAluno(nomeAlteracao);
-                    break;
-                case 4:
-                    System.out.println(">> CONSULTAR ALUNO:");
-                    System.out.println("Digite o nome: ");
-                    String buscaAtual = leitor.nextLine();
-                    try{
-                        Aluno a = alunoDao.buscarAluno(buscaAtual);
-                        System.out.println("Dados do Aluno:");
-                        System.out.println("Nome: " + a.getNome());
-                        System.out.println("RA: " + a.getRa());
-                        System.out.println("E-mail: " + a.getEmail());
-                        System.out.println("Notas: " + a.getNota1() + " - " + a.getNota2() + " - " + a.getNota3());
+    private static void cadastrarAluno(Scanner leitor, AlunoDao alunoDao) {
+        System.out.println(">> CADASTRO DE ALUNO:");
+        Aluno novoAluno = new Aluno();
+        System.out.print("Nome Completo: ");
+        novoAluno.setNome(leitor.nextLine());
+        System.out.print("RA: ");
+        novoAluno.setRa(leitor.nextLine());
+        System.out.print("E-mail: ");
+        novoAluno.setEmail(leitor.nextLine());
+        System.out.print("Nota 1: ");
+        novoAluno.setNota1(leitor.nextBigDecimal());
+        System.out.print("Nota 2: ");
+        novoAluno.setNota2(leitor.nextBigDecimal());
+        System.out.print("Nota 3: ");
+        novoAluno.setNota3(leitor.nextBigDecimal());
+        leitor.nextLine();
 
-                    }catch (NoResultException e){
-                        System.out.println("\n[ERRO] Aluno '" + buscaAtual + "' não encontrado! ");
-                    }
+        try {
+            alunoDao.cadastrar(novoAluno);
+            System.out.println("\n [SUCESSO] Aluno cadastrado com êxito!");
+        } catch (Exception e) {
+            System.err.println("\n[ERRO] Falha ao cadastrar: " + e.getMessage());
+        }
+    }
 
-                    break;
-                case 5:
-                    System.out.println(">> EXIBIR TODOS OS ALUNOS");
-                    List<Aluno> lista = alunoDao.buscarTodosAlunos();
-                    if(lista.isEmpty()){
-                        System.out.println("Nenhum aluno cadastrado no momento.");
-                    }else{
-                        for(Aluno al: lista){
-                            System.out.println("-------------------------");
-                            System.out.println("\nDados do Aluno:");
-                            System.out.println("Nome: " + al.getNome());
-                            System.out.println("RA: " + al.getRa());
-                            System.out.println("E-mail: " + al.getEmail());
-                            System.out.println("Notas: " + al.getNota1() + " - " + al.getNota2() + " - " + al.getNota3());
-                            System.out.println("Media: " + al.getMedia());
-                            System.out.println("Status: >> " + al.status() + " <<\n");
-                        }
-                    }
+    private static void excluirAluno(Scanner leitor, AlunoDao alunoDao) {
+        System.out.print(">> EXCLUIR ALUNO - Digite o nome: ");
+        alunoDao.excluirAluno(leitor.nextLine());
+    }
 
-                    break;
-                case 6:
-                    System.out.println(">> ENCERRANDO O SISTEMA. OBRIGADO POR USAR! ATÉ LOGO!");
-                    em.close();
-                    break;
-                default:
-                    System.out.println("OPÇÃO INVÁLIDA! TENTE NOVAMENTE.");
-                    break;
+    private static void alterarAluno(Scanner leitor, AlunoDao alunoDao) {
+        System.out.print(">> ALTERAR ALUNO - Digite o nome: ");
+        alunoDao.alterarAluno(leitor.nextLine());
+    }
+
+    private static void consultarAluno(Scanner leitor, AlunoDao alunoDao) {
+        System.out.print(">> CONSULTAR ALUNO - Digite o nome: ");
+        String busca = leitor.nextLine();
+        try {
+            Aluno a = alunoDao.buscarAluno(busca);
+            System.out.println("\nDados do Aluno:");
+            System.out.println("Nome: " + a.getNome() + " | RA: " + a.getRa());
+            System.out.println("E-mail: " + a.getEmail());
+            System.out.println("Notas: " + a.getNota1() + " - " + a.getNota2() + " - " + a.getNota3());
+        } catch (NoResultException e) {
+            System.out.println("\n[ERRO] Aluno '" + busca + "' não encontrado!");
+        }
+    }
+
+    private static void listarAlunos(AlunoDao alunoDao) {
+        List<Aluno> lista = alunoDao.buscarTodosAlunos();
+        if (lista.isEmpty()) {
+            System.out.println("Nenhum aluno cadastrado no momento.");
+        } else {
+            for (Aluno al : lista) {
+                System.out.println("\n-------------------------");
+                System.out.println("Nome: " + al.getNome() + " | Status: >> " + al.status() + " <<");
+                System.out.println("Média: " + al.getMedia());
             }
         }
-
-        leitor.close();
     }
 }
