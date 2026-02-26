@@ -28,28 +28,23 @@ public class AlunoDao {
     }
 
 
-    public void excluirAluno(String nome){
-        try{
-            String jpql = "SELECT a FROM Aluno a WHERE a.nome = :n";
+    public void excluirAluno(String nome) {
+        try {
+            Aluno aluno = buscarAluno(nome);
 
-            List<Aluno> lista = em.createQuery(jpql, Aluno.class)
-                    .setParameter("n", nome)
-                    .getResultList();
+            em.getTransaction().begin();
+            em.remove(aluno);
+            em.getTransaction().commit();
 
-            if(lista.isEmpty()){
-                System.out.println("Aluno não encontrado!");
-            } else {
-                em.getTransaction().begin();
+            System.out.println("Aluno '" + nome + "' removido com sucesso!");
 
-                for (Aluno a : lista) {
-                    em.remove(a);
-                }
-
-                em.getTransaction().commit();
-                System.out.println("Aluno removido com sucesso!");
+        } catch (NoResultException e) {
+            System.out.println("[ERRO] Aluno não encontrado para exclusão.");
+        } catch (Exception e) {
+            if (em.getTransaction().isActive()) {
+                em.getTransaction().rollback();
             }
-        }catch (Exception e){
-            em.getTransaction().rollback();
+            System.err.println("[ERRO] Falha ao excluir: " + e.getMessage());
         }
     }
 
