@@ -100,6 +100,16 @@ public class AlunoDao {
                 .getSingleResult();
     }
 
+    public boolean buscarRa(String ra){
+
+        String jpql = "SELECT a from Aluno a WHERE a.ra = :pRa";
+
+        return em.createQuery(jpql, Aluno.class)
+                .setParameter("pRa", ra)
+                .getResultList()
+                .isEmpty();
+    }
+
     public List<Aluno> buscarTodosAlunos(){
         String jpql = "SELECT a FROM Aluno a";
 

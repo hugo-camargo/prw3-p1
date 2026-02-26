@@ -66,23 +66,29 @@ public class Main {
         System.out.print("Nome Completo: ");
         novoAluno.setNome(leitor.nextLine());
         System.out.print("RA: ");
-        novoAluno.setRa(leitor.nextLine());
-        System.out.print("E-mail: ");
-        novoAluno.setEmail(leitor.nextLine());
-        System.out.print("Nota 1: ");
-        novoAluno.setNota1(leitor.nextBigDecimal());
-        System.out.print("Nota 2: ");
-        novoAluno.setNota2(leitor.nextBigDecimal());
-        System.out.print("Nota 3: ");
-        novoAluno.setNota3(leitor.nextBigDecimal());
-        leitor.nextLine();
+        String buscaRa = leitor.nextLine();
+        if (!alunoDao.buscarRa(buscaRa)){
+            System.err.println("\n[ERRO] Este RA já esta cadastrado com outro aluno ");
+        }else{
+            novoAluno.setRa(buscaRa);
+            System.out.print("E-mail: ");
+            novoAluno.setEmail(leitor.nextLine());
+            System.out.print("Nota 1: ");
+            novoAluno.setNota1(leitor.nextBigDecimal());
+            System.out.print("Nota 2: ");
+            novoAluno.setNota2(leitor.nextBigDecimal());
+            System.out.print("Nota 3: ");
+            novoAluno.setNota3(leitor.nextBigDecimal());
+            leitor.nextLine();
 
-        try {
-            alunoDao.cadastrar(novoAluno);
-            System.out.println("\n [SUCESSO] Aluno cadastrado com êxito!");
-        } catch (Exception e) {
-            System.err.println("\n[ERRO] Falha ao cadastrar: " + e.getMessage());
+            try {
+                alunoDao.cadastrar(novoAluno);
+                System.out.println("\n [SUCESSO] Aluno cadastrado com êxito!");
+            } catch (Exception e) {
+                System.err.println("\n[ERRO] Falha ao cadastrar: " + e.getMessage());
+            }
         }
+
     }
 
     private static void excluirAluno(Scanner leitor, AlunoDao alunoDao) {
