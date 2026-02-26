@@ -63,19 +63,38 @@ public class AlunoDao {
             System.out.print("Digite o novo e-mail: ");
             String novoEmail = scan.nextLine();
 
-            System.out.print("Digite a nova nota 1: ");
-            BigDecimal n1 = scan.nextBigDecimal();
-
-            System.out.print("Digite a nova nota 2: ");
-            BigDecimal n2 = scan.nextBigDecimal();
-
-            System.out.print("Digite a nova nota 3: ");
-            BigDecimal n3 = scan.nextBigDecimal();
-
             if(novoNome.isBlank() || novoRa.isBlank() || novoEmail.isBlank()){
                 System.out.println("Nome, RA e e-mail não podem ser vazios!");
                 return;
             }
+
+            BigDecimal n1 = BigDecimal.ZERO;
+            BigDecimal n2 = BigDecimal.ZERO;
+            BigDecimal n3 = BigDecimal.ZERO;
+
+            boolean notaInvalida = true;
+
+            while(notaInvalida) {
+                System.out.print("Digite a nova nota 1: ");
+                n1 = scan.nextBigDecimal();
+
+                System.out.print("Digite a nova nota 2: ");
+                n2 = scan.nextBigDecimal();
+
+                System.out.print("Digite a nova nota 3: ");
+                n3 = scan.nextBigDecimal();
+
+                if(n1.compareTo(BigDecimal.ZERO) < 0 || n1.compareTo(new BigDecimal(10)) > 0){
+                    System.out.println("Nota 1 deve estar entre 0 e 10!");
+                }else if (n2.compareTo(BigDecimal.ZERO) < 0 || n2.compareTo(new BigDecimal(10)) > 0){
+                    System.out.println("Nota 2 deve estar entre 0 e 10!");
+                }else if (n3.compareTo(BigDecimal.ZERO) < 0 || n3.compareTo(new BigDecimal(10)) > 0){
+                    System.out.println("Nota 3 deve estar entre 0 e 10!");
+                }else{
+                    notaInvalida = false;
+                }
+            }
+
             em.getTransaction().begin();
 
             aluno.setNome(novoNome);
@@ -86,7 +105,6 @@ public class AlunoDao {
             aluno.setNota3(n3);
 
             em.getTransaction().commit();
-
         }catch (Exception e){
             em.getTransaction().rollback();
         }
