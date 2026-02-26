@@ -6,6 +6,7 @@ import br.edu.ifsp.hugo_luigi2026.util.JPAUtil;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.NoResultException;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Scanner;
 
@@ -63,19 +64,54 @@ public class Main {
     private static void cadastrarAluno(Scanner leitor, AlunoDao alunoDao) {
         System.out.println(">> CADASTRO DE ALUNO:");
         Aluno novoAluno = new Aluno();
+
+        String nome, ra, email;
         System.out.print("Nome Completo: ");
-        novoAluno.setNome(leitor.nextLine());
+        nome = leitor.nextLine();
+
         System.out.print("RA: ");
-        novoAluno.setRa(leitor.nextLine());
+        ra = leitor.nextLine();
         System.out.print("E-mail: ");
-        novoAluno.setEmail(leitor.nextLine());
-        System.out.print("Nota 1: ");
-        novoAluno.setNota1(leitor.nextBigDecimal());
-        System.out.print("Nota 2: ");
-        novoAluno.setNota2(leitor.nextBigDecimal());
-        System.out.print("Nota 3: ");
-        novoAluno.setNota3(leitor.nextBigDecimal());
-        leitor.nextLine();
+        email = leitor.nextLine();
+
+        if(nome.isBlank() || ra.isBlank() || email.isBlank()) {
+            System.out.println("Nome, RA e e-mail não podem ser vazios!");
+            return;
+        }
+
+        novoAluno.setNome(nome);
+        novoAluno.setRa(ra);
+        novoAluno.setEmail(email);
+
+        boolean notaInvalida = true;
+        BigDecimal n1 = BigDecimal.ZERO;
+        BigDecimal n2 = BigDecimal.ZERO;
+        BigDecimal n3 = BigDecimal.ZERO;
+
+        while(notaInvalida) {
+            System.out.print("Digite a nova nota 1: ");
+            n1 = leitor.nextBigDecimal();
+
+            System.out.print("Digite a nova nota 2: ");
+            n2 = leitor.nextBigDecimal();
+
+            System.out.print("Digite a nova nota 3: ");
+            n3 = leitor.nextBigDecimal();
+
+            if(n1.compareTo(BigDecimal.ZERO) < 0 || n1.compareTo(new BigDecimal(10)) > 0){
+                System.out.println("Nota 1 deve estar entre 0 e 10!");
+            }else if (n2.compareTo(BigDecimal.ZERO) < 0 || n2.compareTo(new BigDecimal(10)) > 0){
+                System.out.println("Nota 2 deve estar entre 0 e 10!");
+            }else if (n3.compareTo(BigDecimal.ZERO) < 0 || n3.compareTo(new BigDecimal(10)) > 0){
+                System.out.println("Nota 3 deve estar entre 0 e 10!");
+            }else{
+                notaInvalida = false;
+            }
+        }
+
+        novoAluno.setNota1(n1);
+        novoAluno.setNota2(n2);
+        novoAluno.setNota3(n3);
 
         try {
             alunoDao.cadastrar(novoAluno);
