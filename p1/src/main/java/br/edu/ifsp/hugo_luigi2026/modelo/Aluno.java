@@ -106,7 +106,7 @@ public class Aluno {
     public String status(){
         if(this.getMedia().doubleValue() >= 6)
             return "APROVADO";
-        if(this.getMedia().doubleValue() < 6 || this.getMedia().doubleValue() >= 4 ){
+        if(this.getMedia().doubleValue() < 6 && this.getMedia().doubleValue() >= 4 ){
             return "RECUPERAÇÃO";
         }
         else{
