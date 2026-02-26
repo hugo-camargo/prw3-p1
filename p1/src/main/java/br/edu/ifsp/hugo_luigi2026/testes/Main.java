@@ -9,7 +9,7 @@ import jakarta.persistence.NoResultException;
 import java.util.List;
 import java.util.Scanner;
 
-// Luigi Vanzella
+// Luigi Anotonio Loddi Vanzella
 // Hugo Camargo
 public class Main {
     public static void main(String[] args) {
@@ -123,7 +123,11 @@ public class Main {
             for (Aluno al : lista) {
                 System.out.println("\n-------------------------");
                 System.out.println("Nome: " + al.getNome() + " | Status: >> " + al.status() + " <<");
+                System.out.println("RA: " + al.getRa());
+                System.out.println("E-mail: " + al.getEmail());
+                System.out.println("Notas: " + al.getNota1() + " - " + al.getNota2() + " - " + al.getNota3());
                 System.out.println("Média: " + al.getMedia());
+
             }
         }
     }
