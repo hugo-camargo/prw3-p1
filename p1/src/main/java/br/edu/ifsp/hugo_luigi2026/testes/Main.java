@@ -71,7 +71,7 @@ public class Main {
 
         System.out.print("RA: ");
         ra = leitor.nextLine();
-        if (!alunoDao.buscarRa(buscaRa)){
+        if (!alunoDao.buscarRa(ra)){
           System.err.println("\n[ERRO] Este RA já esta cadastrado com outro aluno ");
         }else{
           System.out.print("E-mail: ");

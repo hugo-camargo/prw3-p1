@@ -9,7 +9,7 @@ import java.math.RoundingMode;
 
 // FEITO POR:
 // LUIGI ANTONIO LODDI VANZELLA
-//HUGO ...
+// HUGO CAMARGO
 @Entity
 @Table(name = "alunos")
 public class Aluno {
