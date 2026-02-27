@@ -10,7 +10,7 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.Scanner;
 
-// Luigi Vanzella
+// Luigi Anotonio Loddi Vanzella
 // Hugo Camargo
 public class Main {
     public static void main(String[] args) {
@@ -71,54 +71,59 @@ public class Main {
 
         System.out.print("RA: ");
         ra = leitor.nextLine();
-        System.out.print("E-mail: ");
-        email = leitor.nextLine();
+        if (!alunoDao.buscarRa(buscaRa)){
+          System.err.println("\n[ERRO] Este RA já esta cadastrado com outro aluno ");
+        }else{
+          System.out.print("E-mail: ");
+          email = leitor.nextLine();
 
-        if(nome.isBlank() || ra.isBlank() || email.isBlank()) {
-            System.out.println("Nome, RA e e-mail não podem ser vazios!");
-            return;
+          if(nome.isBlank() || ra.isBlank() || email.isBlank()) {
+              System.out.println("Nome, RA e e-mail não podem ser vazios!");
+              return;
+          }
+
+          novoAluno.setNome(nome);
+          novoAluno.setRa(ra);
+          novoAluno.setEmail(email);
+
+          boolean notaInvalida = true;
+          BigDecimal n1 = BigDecimal.ZERO;
+          BigDecimal n2 = BigDecimal.ZERO;
+          BigDecimal n3 = BigDecimal.ZERO;
+
+          while(notaInvalida) {
+              System.out.print("Digite a nova nota 1: ");
+              n1 = leitor.nextBigDecimal();
+
+              System.out.print("Digite a nova nota 2: ");
+              n2 = leitor.nextBigDecimal();
+
+              System.out.print("Digite a nova nota 3: ");
+              n3 = leitor.nextBigDecimal();
+
+              if(n1.compareTo(BigDecimal.ZERO) < 0 || n1.compareTo(new BigDecimal(10)) > 0){
+                  System.out.println("Nota 1 deve estar entre 0 e 10!");
+              }else if (n2.compareTo(BigDecimal.ZERO) < 0 || n2.compareTo(new BigDecimal(10)) > 0){
+                  System.out.println("Nota 2 deve estar entre 0 e 10!");
+              }else if (n3.compareTo(BigDecimal.ZERO) < 0 || n3.compareTo(new BigDecimal(10)) > 0){
+                  System.out.println("Nota 3 deve estar entre 0 e 10!");
+              }else{
+                  notaInvalida = false;
+              }
+          }
+
+          novoAluno.setNota1(n1);
+          novoAluno.setNota2(n2);
+          novoAluno.setNota3(n3);
+
+          try {
+              alunoDao.cadastrar(novoAluno);
+              System.out.println("\n [SUCESSO] Aluno cadastrado com êxito!");
+          } catch (Exception e) {
+              System.err.println("\n[ERRO] Falha ao cadastrar: " + e.getMessage());
+          }
         }
 
-        novoAluno.setNome(nome);
-        novoAluno.setRa(ra);
-        novoAluno.setEmail(email);
-
-        boolean notaInvalida = true;
-        BigDecimal n1 = BigDecimal.ZERO;
-        BigDecimal n2 = BigDecimal.ZERO;
-        BigDecimal n3 = BigDecimal.ZERO;
-
-        while(notaInvalida) {
-            System.out.print("Digite a nova nota 1: ");
-            n1 = leitor.nextBigDecimal();
-
-            System.out.print("Digite a nova nota 2: ");
-            n2 = leitor.nextBigDecimal();
-
-            System.out.print("Digite a nova nota 3: ");
-            n3 = leitor.nextBigDecimal();
-
-            if(n1.compareTo(BigDecimal.ZERO) < 0 || n1.compareTo(new BigDecimal(10)) > 0){
-                System.out.println("Nota 1 deve estar entre 0 e 10!");
-            }else if (n2.compareTo(BigDecimal.ZERO) < 0 || n2.compareTo(new BigDecimal(10)) > 0){
-                System.out.println("Nota 2 deve estar entre 0 e 10!");
-            }else if (n3.compareTo(BigDecimal.ZERO) < 0 || n3.compareTo(new BigDecimal(10)) > 0){
-                System.out.println("Nota 3 deve estar entre 0 e 10!");
-            }else{
-                notaInvalida = false;
-            }
-        }
-
-        novoAluno.setNota1(n1);
-        novoAluno.setNota2(n2);
-        novoAluno.setNota3(n3);
-
-        try {
-            alunoDao.cadastrar(novoAluno);
-            System.out.println("\n [SUCESSO] Aluno cadastrado com êxito!");
-        } catch (Exception e) {
-            System.err.println("\n[ERRO] Falha ao cadastrar: " + e.getMessage());
-        }
     }
 
     private static void excluirAluno(Scanner leitor, AlunoDao alunoDao) {
@@ -153,7 +158,11 @@ public class Main {
             for (Aluno al : lista) {
                 System.out.println("\n-------------------------");
                 System.out.println("Nome: " + al.getNome() + " | Status: >> " + al.status() + " <<");
+                System.out.println("RA: " + al.getRa());
+                System.out.println("E-mail: " + al.getEmail());
+                System.out.println("Notas: " + al.getNota1() + " - " + al.getNota2() + " - " + al.getNota3());
                 System.out.println("Média: " + al.getMedia());
+
             }
         }
     }
